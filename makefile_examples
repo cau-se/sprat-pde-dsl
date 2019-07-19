@@ -1,0 +1,27 @@
+BOOSTPATH=./boost/
+CCOMP=g++
+CCMPI=mpic++
+COMPFLAGS=-DSPRAT_BUILD_WITH_OPENMP -I$(BOOSTPATH) -O3 -ffast-math -pedantic -Wall -Wno-unused-variable -Wno-sign-compare -std=c++11 -fopenmp -fmessage-length=0
+CMPIFLAGS=-DSPRAT_BUILD_WITH_MPI -DSPRAT_BUILD_WITH_OPENMP -I$(BOOSTPATH) -O3 -ffast-math -pedantic -Wall -std=c++11 -fopenmp -fmessage-length=0
+LIBFLAGS=-lm
+PDEDSLHEADER=$(wildcard pdedsl/*.hpp)
+
+
+all: example1 example1_solution example2 example3 example3_solution
+	
+
+example1: examples/example1.cpp $(PDEDSLHEADER)
+	$(CCOMP) $(COMPFLAGS) -o example1 $(LIBFLAGS) examples/example1.cpp
+
+example1_solution: examples/example1_solution.cpp $(PDEDSLHEADER)
+	$(CCOMP) $(COMPFLAGS) -o example1_solution $(LIBFLAGS) examples/example1_solution.cpp
+
+example2: examples/example2.cpp $(PDEDSLHEADER)
+	$(CCOMP) $(COMPFLAGS) -o example2 $(LIBFLAGS) examples/example2.cpp
+
+example3: examples/example3.cpp $(PDEDSLHEADER)
+	$(CCMPI) $(CMPIFLAGS) -o example3 $(LIBFLAGS) examples/example3.cpp
+
+example3_solution: examples/example3_solution.cpp $(PDEDSLHEADER)
+	$(CCMPI) $(CMPIFLAGS) -o example3_solution $(LIBFLAGS) examples/example3_solution.cpp
+
